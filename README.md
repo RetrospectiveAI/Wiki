@@ -10,7 +10,7 @@ It provides guides and instructions on how to develop and maintain the repositor
 ## Commits
 - Use `feat:` for new features/changes.
 - Use `docs:` for documentation changes.
-- Changes in dependencies or configurations should be explicitly identified with `config:` and submitted via a PR.
+- Use `config:` for changes in dependencies or configurations and submit via a PR.
 
 ## Diagrams
 - Keep diagrams in a `/docs/diagrams` folder in each repository.
