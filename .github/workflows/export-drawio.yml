@@ -1,0 +1,46 @@
+name: Export Draw.io to PNG
+
+on:
+  push:
+    paths:
+      - 'diagrams/**/*.drawio'
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y xvfb wget libgbm1 libasound2
+
+      - name: Install draw.io CLI (AppImage)
+        run: |
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v21.8.6/drawio-x86_64-21.8.6.AppImage -O drawio.AppImage
+          chmod +x drawio.AppImage
+          ./drawio.AppImage --appimage-extract 
+          chmod +x squashfs-root/draw.io
+
+      - name: Export Draw.io diagrams
+        run: |
+          mkdir -p diagrams/retrospective/png
+          for f in diagrams/retrospective/drawio/*.drawio; do
+            xvfb-run --auto-servernum squashfs-root/draw.io \
+              --no-sandbox \
+              --export \
+              --format png \
+              --output "diagrams/retrospective/png/$(basename "$f" .drawio).png" \
+              "$f"
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add diagrams/retrospective/png/
+          git diff --staged --quiet || git commit -m "chore: update PNGs from draw.io" && git push
