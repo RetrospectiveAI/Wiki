@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y xvfb wget libgbm1 libasound2
+          sudo apt install -y xvfb wget libgbm1 libasound2t64
 
       - name: Install draw.io CLI (AppImage)
         run: |
