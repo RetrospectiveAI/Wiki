@@ -21,9 +21,9 @@ jobs:
 
       - name: Install draw.io CLI (AppImage)
         run: |
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v21.8.6/drawio-x86_64-21.8.6.AppImage -O drawio.AppImage
+          wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v21.8.6/draw.io-x86_64-21.8.6.AppImage" -O drawio.AppImage
           chmod +x drawio.AppImage
-          ./drawio.AppImage --appimage-extract 
+          ./drawio.AppImage --appimage-extract
           chmod +x squashfs-root/draw.io
 
       - name: Export Draw.io diagrams
